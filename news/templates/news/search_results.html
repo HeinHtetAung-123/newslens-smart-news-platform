@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>NewsLens</title>
+    <title>Search Results | NewsLens</title>
 </head>
 <body>
     <header>
@@ -10,32 +10,26 @@
         <p>Smart news aggregation and insight platform</p>
 
         <form action="{% url 'news:search_articles' %}" method="get">
-            <input type="text" name="q" placeholder="Search news..." required>
+            <input type="text" name="q" value="{{ query }}" placeholder="Search news..." required>
             <button type="submit">Search</button>
         </form>
     </header>
 
     <nav>
-        <strong>Categories:</strong>
-
-        <a href="{% url 'news:home' %}">
-            All
-        </a>
+        <a href="{% url 'news:home' %}">Home</a>
 
         {% for category in categories %}
             <a href="{% url 'news:category_articles' category.slug %}">
                 {{ category.name }}
             </a>
-        {% empty %}
-            <span>No categories available.</span>
         {% endfor %}
     </nav>
 
     <main>
-        {% if active_category %}
-            <h2>{{ active_category.name }} News</h2>
+        {% if query %}
+            <h2>Search results for "{{ query }}"</h2>
         {% else %}
-            <h2>Latest News</h2>
+            <h2>Search News</h2>
         {% endif %}
 
         {% for article in articles %}
@@ -74,7 +68,11 @@
 
             <hr>
         {% empty %}
-            <p>No articles available yet. Add articles from the admin panel or run the seed command.</p>
+            {% if query %}
+                <p>No articles found for "{{ query }}".</p>
+            {% else %}
+                <p>Enter a search keyword to find news articles.</p>
+            {% endif %}
         {% endfor %}
     </main>
 </body>

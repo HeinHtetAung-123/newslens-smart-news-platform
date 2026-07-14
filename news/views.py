@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from .models import Article, Category
 
@@ -42,3 +43,27 @@ def article_detail(request, article_id):
     }
 
     return render(request, "news/article_detail.html", context)
+
+
+def search_articles(request):
+    query = request.GET.get("q", "").strip()
+    categories = Category.objects.all()
+    articles = Article.objects.none()
+
+    if query:
+        articles = Article.objects.select_related("source", "category").filter(
+            Q(title__icontains=query) |
+            Q(description__icontains=query) |
+            Q(summary__icontains=query) |
+            Q(content__icontains=query) |
+            Q(source__name__icontains=query) |
+            Q(category__name__icontains=query)
+        )
+
+    context = {
+        "query": query,
+        "articles": articles,
+        "categories": categories,
+    }
+
+    return render(request, "news/search_results.html", context)

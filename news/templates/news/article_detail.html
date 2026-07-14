@@ -8,6 +8,11 @@
     <header>
         <h1>NewsLens</h1>
         <p>Smart news aggregation and insight platform</p>
+
+        <form action="{% url 'news:search_articles' %}" method="get">
+            <input type="text" name="q" placeholder="Search news..." required>
+            <button type="submit">Search</button>
+        </form>
     </header>
 
     <nav>
