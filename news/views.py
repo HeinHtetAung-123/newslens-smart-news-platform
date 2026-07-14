@@ -1,6 +1,9 @@
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from .models import Article, Category
+from django.contrib.auth import login
+from django.contrib.auth.forms import UserCreationForm
+from django.shortcuts import redirect
 
 
 def home(request):
@@ -67,3 +70,21 @@ def search_articles(request):
     }
 
     return render(request, "news/search_results.html", context)
+
+def register(request):
+    if request.method == "POST":
+        form = UserCreationForm(request.POST)
+
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect("news:home")
+    else:
+        form = UserCreationForm()
+
+    context = {
+        "form": form,
+        "categories": Category.objects.all(),
+    }
+
+    return render(request, "registration/register.html", context)

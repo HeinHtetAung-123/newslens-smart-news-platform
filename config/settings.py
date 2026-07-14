@@ -128,3 +128,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATICFILES_DIRS = [BASE_DIR / 'static']
 
 NEWS_API_KEY = os.getenv("NEWS_API_KEY")
+
+LOGIN_REDIRECT_URL = "news:home"
+LOGOUT_REDIRECT_URL = "news:home"
+LOGIN_URL = "login"

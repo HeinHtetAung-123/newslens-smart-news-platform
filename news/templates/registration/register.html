@@ -1,0 +1,25 @@
+{% extends "news/base.html" %}
+
+{% block title %}
+    Register | NewsLens
+{% endblock %}
+
+{% block content %}
+    <section class="auth-card">
+        <h1>Create Account</h1>
+        <p>Create a NewsLens account to access personal features in later iterations.</p>
+
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+
+            {{ form.as_p }}
+
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+
+        <p class="auth-note">
+            Already have an account?
+            <a href="{% url 'login' %}">Login here</a>.
+        </p>
+    </section>
+{% endblock %}

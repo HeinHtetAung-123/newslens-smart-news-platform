@@ -17,16 +17,32 @@
                 <p class="tagline">Smart news aggregation and insight platform</p>
             </div>
 
-            <form class="search-form" action="{% url 'news:search_articles' %}" method="get">
-                <input
-                    type="text"
-                    name="q"
-                    value="{{ query|default:'' }}"
-                    placeholder="Search news..."
-                    required
-                >
-                <button type="submit">Search</button>
-            </form>
+            <div class="header-right">
+                <form class="search-form" action="{% url 'news:search_articles' %}" method="get">
+                    <input
+                        type="text"
+                        name="q"
+                        value="{{ query|default:'' }}"
+                        placeholder="Search news..."
+                        required
+                    >
+                    <button type="submit">Search</button>
+                </form>
+
+                <div class="auth-links">
+                    {% if user.is_authenticated %}
+                        <span>Hi, {{ user.username }}</span>
+
+                        <form action="{% url 'logout' %}" method="post" class="logout-form">
+                            {% csrf_token %}
+                            <button type="submit">Logout</button>
+                        </form>
+                    {% else %}
+                        <a href="{% url 'login' %}">Login</a>
+                        <a href="{% url 'news:register' %}">Register</a>
+                    {% endif %}
+                </div>
+            </div>
         </div>
     </header>
 
