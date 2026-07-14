@@ -67,3 +67,7 @@ The following are rough user stories collected during the early planning stage. 
 ## Project Status
 
 Practical 1 is focused on setting up the GitHub repository, writing the README file, and creating the initial backlog ideas. More detailed requirements, user stories, priorities, estimates, designs, testing, and implementation evidence will be added in later practicals.
+
+## Project Documentation
+
+- [Requirements and User Stories](docs/requirements.md)
