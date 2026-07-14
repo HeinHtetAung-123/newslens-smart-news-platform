@@ -27,3 +27,18 @@ def category_articles(request, slug):
     }
 
     return render(request, "news/home.html", context)
+
+
+def article_detail(request, article_id):
+    article = get_object_or_404(
+        Article.objects.select_related("source", "category"),
+        id=article_id
+    )
+    categories = Category.objects.all()
+
+    context = {
+        "article": article,
+        "categories": categories,
+    }
+
+    return render(request, "news/article_detail.html", context)

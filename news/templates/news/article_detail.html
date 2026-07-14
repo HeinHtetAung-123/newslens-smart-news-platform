@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ article.title }} | NewsLens</title>
+</head>
+<body>
+    <header>
+        <h1>NewsLens</h1>
+        <p>Smart news aggregation and insight platform</p>
+    </header>
+
+    <nav>
+        <a href="{% url 'news:home' %}">Home</a>
+
+        {% for category in categories %}
+            <a href="{% url 'news:category_articles' category.slug %}">
+                {{ category.name }}
+            </a>
+        {% endfor %}
+    </nav>
+
+    <main>
+        <article>
+            <h2>{{ article.title }}</h2>
+
+            <p>
+                <strong>Source:</strong> {{ article.source.name }} |
+                <strong>Category:</strong> {{ article.category.name }} |
+                <strong>Published:</strong> {{ article.published_at|date:"M d, Y H:i" }}
+            </p>
+
+            {% if article.description %}
+                <h3>Description</h3>
+                <p>{{ article.description }}</p>
+            {% endif %}
+
+            {% if article.summary %}
+                <h3>Quick Summary</h3>
+                <p>{{ article.summary }}</p>
+            {% endif %}
+
+            {% if article.content %}
+                <h3>Article Content</h3>
+                <p>{{ article.content }}</p>
+            {% endif %}
+
+            <p>
+                <a href="{{ article.original_url }}" target="_blank">
+                    Read original article
+                </a>
+            </p>
+
+            <p>
+                <a href="{% url 'news:home' %}">
+                    Back to latest news
+                </a>
+            </p>
+        </article>
+    </main>
+</body>
+</html>
