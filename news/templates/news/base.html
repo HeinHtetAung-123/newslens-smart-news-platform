@@ -1,0 +1,58 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}NewsLens{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static 'news/css/style.css' %}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="container header-content">
+            <div>
+                <a href="{% url 'news:home' %}" class="logo">NewsLens</a>
+                <p class="tagline">Smart news aggregation and insight platform</p>
+            </div>
+
+            <form class="search-form" action="{% url 'news:search_articles' %}" method="get">
+                <input
+                    type="text"
+                    name="q"
+                    value="{{ query|default:'' }}"
+                    placeholder="Search news..."
+                    required
+                >
+                <button type="submit">Search</button>
+            </form>
+        </div>
+    </header>
+
+    <nav class="category-nav">
+        <div class="container category-list">
+            <a href="{% url 'news:home' %}" class="category-link">All</a>
+
+            {% for category in categories %}
+                <a href="{% url 'news:category_articles' category.slug %}" class="category-link">
+                    {{ category.name }}
+                </a>
+            {% empty %}
+                <span class="empty-text">No categories available.</span>
+            {% endfor %}
+        </div>
+    </nav>
+
+    <main class="container page-content">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <p>NewsLens &copy; 2026. Built as an Advanced Software Engineering project.</p>
+        </div>
+    </footer>
+</body>
+</html>

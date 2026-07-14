@@ -1,67 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ article.title }} | NewsLens</title>
-</head>
-<body>
-    <header>
-        <h1>NewsLens</h1>
-        <p>Smart news aggregation and insight platform</p>
+{% extends "news/base.html" %}
 
-        <form action="{% url 'news:search_articles' %}" method="get">
-            <input type="text" name="q" placeholder="Search news..." required>
-            <button type="submit">Search</button>
-        </form>
-    </header>
+{% block title %}
+    {{ article.title }} | NewsLens
+{% endblock %}
 
-    <nav>
-        <a href="{% url 'news:home' %}">Home</a>
-
-        {% for category in categories %}
-            <a href="{% url 'news:category_articles' category.slug %}">
-                {{ category.name }}
-            </a>
-        {% endfor %}
-    </nav>
-
-    <main>
-        <article>
-            <h2>{{ article.title }}</h2>
-
-            <p>
-                <strong>Source:</strong> {{ article.source.name }} |
-                <strong>Category:</strong> {{ article.category.name }} |
-                <strong>Published:</strong> {{ article.published_at|date:"M d, Y H:i" }}
+{% block content %}
+    <article class="detail-card">
+        <div class="detail-header">
+            <p class="article-meta">
+                <span>{{ article.source.name }}</span>
+                <span>{{ article.category.name }}</span>
+                <span>{{ article.published_at|date:"M d, Y H:i" }}</span>
             </p>
 
-            {% if article.description %}
-                <h3>Description</h3>
-                <p>{{ article.description }}</p>
-            {% endif %}
+            <h1>{{ article.title }}</h1>
+        </div>
 
-            {% if article.summary %}
-                <h3>Quick Summary</h3>
+        {% if article.image_url %}
+            <img src="{{ article.image_url }}" alt="{{ article.title }}" class="detail-image">
+        {% endif %}
+
+        {% if article.summary %}
+            <section class="detail-section summary-highlight">
+                <h2>Quick Summary</h2>
                 <p>{{ article.summary }}</p>
-            {% endif %}
+            </section>
+        {% endif %}
 
-            {% if article.content %}
-                <h3>Article Content</h3>
+        {% if article.description %}
+            <section class="detail-section">
+                <h2>Description</h2>
+                <p>{{ article.description }}</p>
+            </section>
+        {% endif %}
+
+        {% if article.content %}
+            <section class="detail-section">
+                <h2>Article Preview</h2>
                 <p>{{ article.content }}</p>
-            {% endif %}
+            </section>
+        {% else %}
+            <section class="detail-section">
+                <h2>Article Preview</h2>
+                <p>
+                    Full article content is not available inside NewsLens for this source.
+                    Use the original source link below to read the full article from the publisher.
+                </p>
+            </section>
+        {% endif %}
 
-            <p>
-                <a href="{{ article.original_url }}" target="_blank">
-                    Read original article
-                </a>
-            </p>
+        <div class="detail-actions">
+            <a href="{{ article.original_url }}" target="_blank" class="btn btn-primary">
+                Read full article at original source
+            </a>
 
-            <p>
-                <a href="{% url 'news:home' %}">
-                    Back to latest news
-                </a>
-            </p>
-        </article>
-    </main>
-</body>
-</html>
+            <a href="{% url 'news:home' %}" class="btn btn-secondary">
+                Back to latest news
+            </a>
+        </div>
+    </article>
+{% endblock %}

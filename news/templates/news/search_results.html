@@ -1,79 +1,79 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Search Results | NewsLens</title>
-</head>
-<body>
-    <header>
-        <h1>NewsLens</h1>
-        <p>Smart news aggregation and insight platform</p>
+{% extends "news/base.html" %}
 
-        <form action="{% url 'news:search_articles' %}" method="get">
-            <input type="text" name="q" value="{{ query }}" placeholder="Search news..." required>
-            <button type="submit">Search</button>
-        </form>
-    </header>
+{% block title %}
+    Search Results | NewsLens
+{% endblock %}
 
-    <nav>
-        <a href="{% url 'news:home' %}">Home</a>
-
-        {% for category in categories %}
-            <a href="{% url 'news:category_articles' category.slug %}">
-                {{ category.name }}
-            </a>
-        {% endfor %}
-    </nav>
-
-    <main>
+{% block content %}
+    <section class="page-heading">
         {% if query %}
-            <h2>Search results for "{{ query }}"</h2>
+            <h1>Search results for "{{ query }}"</h1>
+            <p>Articles matching your keyword across title, content, source, category, and summary.</p>
         {% else %}
-            <h2>Search News</h2>
+            <h1>Search News</h1>
+            <p>Enter a keyword to search for news articles.</p>
         {% endif %}
+    </section>
 
+    <section class="article-grid">
         {% for article in articles %}
-            <article>
-                <h3>
-                    <a href="{% url 'news:article_detail' article.id %}">
-                        {{ article.title }}
-                    </a>
-                </h3>
-
-                <p>
-                    <strong>Source:</strong> {{ article.source.name }} |
-                    <strong>Category:</strong> {{ article.category.name }} |
-                    <strong>Published:</strong> {{ article.published_at|date:"M d, Y H:i" }}
-                </p>
-
-                {% if article.description %}
-                    <p>{{ article.description }}</p>
+            <article class="article-card">
+                {% if article.image_url %}
+                    <img src="{{ article.image_url }}" alt="{{ article.title }}" class="article-image">
+                {% else %}
+                    <div class="article-image placeholder-image">
+                        NewsLens
+                    </div>
                 {% endif %}
 
-                {% if article.summary %}
-                    <p>
-                        <strong>Quick Summary:</strong>
-                        {{ article.summary }}
+                <div class="article-body">
+                    <div class="article-meta">
+                        <span>{{ article.source.name }}</span>
+                        <span>{{ article.category.name }}</span>
+                    </div>
+
+                    <h2>
+                        <a href="{% url 'news:article_detail' article.id %}">
+                            {{ article.title }}
+                        </a>
+                    </h2>
+
+                    <p class="published-date">
+                        Published {{ article.published_at|date:"M d, Y H:i" }}
                     </p>
-                {% endif %}
 
-                <a href="{% url 'news:article_detail' article.id %}">
-                    View details
-                </a>
-                |
-                <a href="{{ article.original_url }}" target="_blank">
-                    Read original article
-                </a>
+                    {% if article.description %}
+                        <p class="article-description">{{ article.description|truncatewords:28 }}</p>
+                    {% endif %}
+
+                    {% if article.summary %}
+                        <div class="summary-box">
+                            <strong>Quick Summary</strong>
+                            <p>{{ article.summary|truncatewords:35 }}</p>
+                        </div>
+                    {% endif %}
+
+                    <div class="card-actions">
+                        <a href="{% url 'news:article_detail' article.id %}" class="btn btn-primary">
+                            View details
+                        </a>
+
+                        <a href="{{ article.original_url }}" target="_blank" class="btn btn-secondary">
+                            Original source
+                        </a>
+                    </div>
+                </div>
             </article>
-
-            <hr>
         {% empty %}
-            {% if query %}
-                <p>No articles found for "{{ query }}".</p>
-            {% else %}
-                <p>Enter a search keyword to find news articles.</p>
-            {% endif %}
+            <div class="empty-state">
+                {% if query %}
+                    <h2>No articles found</h2>
+                    <p>No articles matched "{{ query }}". Try another keyword.</p>
+                {% else %}
+                    <h2>Start searching</h2>
+                    <p>Enter a keyword in the search bar to find news articles.</p>
+                {% endif %}
+            </div>
         {% endfor %}
-    </main>
-</body>
-</html>
+    </section>
+{% endblock %}
