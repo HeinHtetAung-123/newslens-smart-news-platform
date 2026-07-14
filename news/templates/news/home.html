@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>NewsLens</title>
+</head>
+<body>
+    <header>
+        <h1>NewsLens</h1>
+        <p>Smart news aggregation and insight platform</p>
+    </header>
+
+    <nav>
+        <strong>Categories:</strong>
+        {% for category in categories %}
+            <span>{{ category.name }}</span>
+        {% empty %}
+            <span>No categories available.</span>
+        {% endfor %}
+    </nav>
+
+    <main>
+        <h2>Latest News</h2>
+
+        {% for article in articles %}
+            <article>
+                <h3>{{ article.title }}</h3>
+                <p>
+                    <strong>Source:</strong> {{ article.source.name }} |
+                    <strong>Category:</strong> {{ article.category.name }} |
+                    <strong>Published:</strong> {{ article.published_at|date:"M d, Y H:i" }}
+                </p>
+
+                {% if article.description %}
+                    <p>{{ article.description }}</p>
+                {% endif %}
+
+                {% if article.summary %}
+                    <p><strong>Quick Summary:</strong> {{ article.summary }}</p>
+                {% endif %}
+
+                <a href="{{ article.original_url }}" target="_blank">Read original article</a>
+            </article>
+
+            <hr>
+        {% empty %}
+            <p>No articles available yet. Add articles from the admin panel.</p>
+        {% endfor %}
+    </main>
+</body>
+</html>
