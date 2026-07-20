@@ -9,4 +9,7 @@ urlpatterns = [
     path("article/<int:article_id>/", views.article_detail, name="article_detail"),
     path("search/", views.search_articles, name="search_articles"),
     path("register/", views.register, name="register"),
+    path("article/<int:article_id>/save/", views.save_article, name="save_article"),
+    path("article/<int:article_id>/remove/", views.remove_saved_article, name="remove_saved_article"),
+    path("saved/", views.saved_articles, name="saved_articles"),
 ]

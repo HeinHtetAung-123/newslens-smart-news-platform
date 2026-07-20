@@ -1,0 +1,71 @@
+{% extends "news/base.html" %}
+
+{% block title %}
+    Saved Articles | NewsLens
+{% endblock %}
+
+{% block content %}
+    <section class="page-heading">
+        <h1>Saved Articles</h1>
+        <p>Articles you have saved for later reading.</p>
+    </section>
+
+    <section class="article-grid">
+        {% for saved in saved_items %}
+            <article class="article-card">
+                {% if saved.article.image_url %}
+                    <img src="{{ saved.article.image_url }}" alt="{{ saved.article.title }}" class="article-image">
+                {% else %}
+                    <div class="article-image placeholder-image">
+                        NewsLens
+                    </div>
+                {% endif %}
+
+                <div class="article-body">
+                    <div class="article-meta">
+                        <span>{{ saved.article.source.name }}</span>
+                        <span>{{ saved.article.category.name }}</span>
+                    </div>
+
+                    <h2>
+                        <a href="{% url 'news:article_detail' saved.article.id %}">
+                            {{ saved.article.title }}
+                        </a>
+                    </h2>
+
+                    <p class="published-date">
+                        Saved {{ saved.saved_at|date:"M d, Y H:i" }}
+                    </p>
+
+                    {% if saved.article.description %}
+                        <p class="article-description">
+                            {{ saved.article.description|truncatewords:28 }}
+                        </p>
+                    {% endif %}
+
+                    {% if saved.article.summary %}
+                        <div class="summary-box">
+                            <strong>Quick Summary</strong>
+                            <p>{{ saved.article.summary|truncatewords:35 }}</p>
+                        </div>
+                    {% endif %}
+
+                    <div class="card-actions">
+                        <a href="{% url 'news:article_detail' saved.article.id %}" class="btn btn-primary">
+                            View details
+                        </a>
+
+                        <a href="{% url 'news:remove_saved_article' saved.article.id %}" class="btn btn-secondary">
+                            Remove
+                        </a>
+                    </div>
+                </div>
+            </article>
+        {% empty %}
+            <div class="empty-state">
+                <h2>No saved articles yet</h2>
+                <p>Open an article and click “Save article” to add it here.</p>
+            </div>
+        {% endfor %}
+    </section>
+{% endblock %}

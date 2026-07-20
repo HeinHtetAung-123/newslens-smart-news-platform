@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class Category(models.Model):
@@ -48,3 +49,23 @@ class Article(models.Model):
 
     def __str__(self):
         return self.title
+
+class SavedArticle(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="saved_articles"
+    )
+    article = models.ForeignKey(
+        Article,
+        on_delete=models.CASCADE,
+        related_name="saved_by"
+    )
+    saved_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ("user", "article")
+        ordering = ["-saved_at"]
+
+    def __str__(self):
+        return f"{self.user.username} saved {self.article.title}"

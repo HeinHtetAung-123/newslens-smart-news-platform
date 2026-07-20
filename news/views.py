@@ -1,9 +1,9 @@
 from django.db.models import Q
-from django.shortcuts import render, get_object_or_404
-from .models import Article, Category
+from django.shortcuts import render, get_object_or_404, redirect
+from .models import Article, Category, SavedArticle
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
-from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
 
 
 def home(request):
@@ -88,3 +88,43 @@ def register(request):
     }
 
     return render(request, "registration/register.html", context)
+
+@login_required
+def save_article(request, article_id):
+    article = get_object_or_404(Article, id=article_id)
+
+    SavedArticle.objects.get_or_create(
+        user=request.user,
+        article=article
+    )
+
+    return redirect("news:article_detail", article_id=article.id)
+
+
+@login_required
+def remove_saved_article(request, article_id):
+    article = get_object_or_404(Article, id=article_id)
+
+    SavedArticle.objects.filter(
+        user=request.user,
+        article=article
+    ).delete()
+
+    return redirect("news:saved_articles")
+
+@login_required
+def saved_articles(request):
+    saved_items = SavedArticle.objects.select_related(
+        "article",
+        "article__source",
+        "article__category"
+    ).filter(user=request.user)
+
+    categories = Category.objects.all()
+
+    context = {
+        "saved_items": saved_items,
+        "categories": categories,
+    }
+
+    return render(request, "news/saved_articles.html", context)
