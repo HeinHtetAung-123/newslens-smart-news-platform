@@ -1,37 +1,46 @@
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Article, Category, SavedArticle
+from .models import Article, Category, SavedArticle, BreakingNewsAlert
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 
-
 def home(request):
     articles = Article.objects.select_related("source", "category").all()
     categories = Category.objects.all()
+    breaking_alerts = BreakingNewsAlert.objects.select_related(
+        "article",
+        "article__source",
+        "article__category"
+    ).filter(is_active=True)[:3]
 
     context = {
         "articles": articles,
         "categories": categories,
         "active_category": None,
+        "breaking_alerts": breaking_alerts,
     }
 
     return render(request, "news/home.html", context)
-
 
 def category_articles(request, slug):
     category = get_object_or_404(Category, slug=slug)
     articles = Article.objects.select_related("source", "category").filter(category=category)
     categories = Category.objects.all()
+    breaking_alerts = BreakingNewsAlert.objects.select_related(
+        "article",
+        "article__source",
+        "article__category"
+    ).filter(is_active=True)[:3]
 
     context = {
         "articles": articles,
         "categories": categories,
         "active_category": category,
+        "breaking_alerts": breaking_alerts,
     }
 
     return render(request, "news/home.html", context)
-
 
 def article_detail(request, article_id):
     article = get_object_or_404(
@@ -46,7 +55,6 @@ def article_detail(request, article_id):
     }
 
     return render(request, "news/article_detail.html", context)
-
 
 def search_articles(request):
     query = request.GET.get("q", "").strip()
@@ -99,7 +107,6 @@ def save_article(request, article_id):
     )
 
     return redirect("news:article_detail", article_id=article.id)
-
 
 @login_required
 def remove_saved_article(request, article_id):
