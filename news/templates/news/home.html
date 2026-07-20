@@ -81,7 +81,7 @@
                     {% if article.summary %}
                         <div class="summary-box">
                             <strong>Quick Summary</strong>
-                            <p>{{ article.summary|truncatewords:35 }}</p>
+                            <p>{{ article.get_quick_summary|truncatewords:35 }}</p>
                         </div>
                     {% endif %}
 

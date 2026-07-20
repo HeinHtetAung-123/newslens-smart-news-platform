@@ -44,9 +44,9 @@
                     {% endif %}
 
                     {% if saved.article.summary %}
-                        <div class="summary-box">
+                       <div class="summary-box">
                             <strong>Quick Summary</strong>
-                            <p>{{ saved.article.summary|truncatewords:35 }}</p>
+                            <p>{{ saved.article.get_quick_summary|truncatewords:35 }}</p>
                         </div>
                     {% endif %}
 

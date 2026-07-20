@@ -50,6 +50,10 @@ class Article(models.Model):
     def __str__(self):
         return self.title
 
+    def get_quick_summary(self):
+        from .services import generate_quick_summary
+        return generate_quick_summary(self)
+
 class SavedArticle(models.Model):
     user = models.ForeignKey(
         User,

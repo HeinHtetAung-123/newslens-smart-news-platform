@@ -21,9 +21,9 @@
         {% endif %}
 
         {% if article.summary %}
-            <section class="detail-section summary-highlight">
+           <section class="detail-section summary-highlight">
                 <h2>Quick Summary</h2>
-                <p>{{ article.summary }}</p>
+                <p>{{ article.get_quick_summary }}</p>
             </section>
         {% endif %}
 
