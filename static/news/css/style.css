@@ -637,3 +637,13 @@ a {
         max-height: none;
     }
 }
+
+.saved-status {
+    display: inline-block;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background: #dcfce7;
+    color: #166534;
+    font-weight: 800;
+    font-size: 14px;
+}

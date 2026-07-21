@@ -47,14 +47,26 @@ def article_detail(request, article_id):
         Article.objects.select_related("source", "category"),
         id=article_id
     )
+
+    is_saved = False
+
+    if request.user.is_authenticated:
+        is_saved = SavedArticle.objects.filter(
+            user=request.user,
+            article=article
+        ).exists()
+
     categories = Category.objects.all()
 
-    context = {
-        "article": article,
-        "categories": categories,
-    }
-
-    return render(request, "news/article_detail.html", context)
+    return render(
+        request,
+        "news/article_detail.html",
+        {
+            "article": article,
+            "categories": categories,
+            "is_saved": is_saved,
+        }
+    )
 
 def search_articles(request):
     query = request.GET.get("q", "").strip()
