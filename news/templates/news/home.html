@@ -6,32 +6,37 @@
 
 {% block content %}
     {% if breaking_alerts %}
-        <section class="breaking-alerts">
-            <div class="breaking-header">
-                <span>Breaking News</span>
+        <section class="breaking-section">
+            <div class="breaking-section-header">
+                <span class="breaking-badge">Breaking News</span>
+                <h2>Top developing stories</h2>
+                <p>Important stories selected from current headlines and active alerts.</p>
             </div>
 
-            {% for alert in breaking_alerts %}
-                <div class="breaking-card">
-                    <div>
-                        <h2>{{ alert.alert_title }}</h2>
+            <div class="breaking-list">
+                {% for alert in breaking_alerts %}
+                    <article class="breaking-item-text">
+                        <div class="breaking-meta-row">
+                            <span>{{ alert.article.source.name }}</span>
+                            <span>{{ alert.created_at|date:"M d, Y H:i" }}</span>
+                        </div>
+
+                        <h3>{{ alert.alert_title }}</h3>
 
                         {% if alert.message %}
-                            <p>{{ alert.message }}</p>
+                            <p>{{ alert.message|truncatewords:32 }}</p>
                         {% else %}
-                            <p>{{ alert.article.description|truncatewords:24 }}</p>
+                            <p>{{ alert.article.description|truncatewords:32 }}</p>
                         {% endif %}
 
-                        <p class="breaking-meta">
-                            {{ alert.article.source.name }} · {{ alert.created_at|date:"M d, Y H:i" }}
-                        </p>
-                    </div>
-
-                    <a href="{% url 'news:article_detail' alert.article.id %}" class="btn btn-primary">
-                        Read alert
-                    </a>
-                </div>
-            {% endfor %}
+                        <div class="breaking-actions">
+                            <a href="{% url 'news:article_detail' alert.article.id %}" class="btn btn-primary">
+                                Read alert
+                            </a>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
         </section>
     {% endif %}
 
@@ -57,33 +62,33 @@
                 {% endif %}
 
                 <div class="article-body">
-                    <div class="article-meta">
-                        <span>{{ article.source.name }}</span>
-                        <span>{{ article.category.name }}</span>
-                    </div>
+                    <div class="article-main-content">
+                        <div class="article-meta">
+                            <span>{{ article.source.name }}</span>
+                            <span>{{ article.category.name }}</span>
+                        </div>
 
-                    <h2>
-                        <a href="{% url 'news:article_detail' article.id %}">
-                            {{ article.title }}
-                        </a>
-                    </h2>
+                        <h2>
+                            <a href="{% url 'news:article_detail' article.id %}">
+                                {{ article.title }}
+                            </a>
+                        </h2>
 
-                    <p class="published-date">
-                        Published {{ article.published_at|date:"M d, Y H:i" }}
-                    </p>
-
-                    {% if article.description %}
-                        <p class="article-description">
-                            {{ article.description|truncatewords:28 }}
+                        <p class="published-date">
+                            Published {{ article.published_at|date:"M d, Y H:i" }}
                         </p>
-                    {% endif %}
 
-                    {% if article.summary %}
+                        {% if article.description %}
+                            <p class="article-description">
+                                {{ article.description|truncatewords:28 }}
+                            </p>
+                        {% endif %}
+
                         <div class="summary-box">
                             <strong>Quick Summary</strong>
                             <p>{{ article.get_quick_summary|truncatewords:35 }}</p>
                         </div>
-                    {% endif %}
+                    </div>
 
                     <div class="card-actions">
                         <a href="{% url 'news:article_detail' article.id %}" class="btn btn-primary">

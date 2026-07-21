@@ -5,7 +5,7 @@ from django.core.management.base import BaseCommand
 from django.utils import timezone
 from django.utils.dateparse import parse_datetime
 
-from news.models import Article, Category, NewsSource
+from news.models import Article, Category, NewsSource, BreakingNewsAlert
 
 
 class Command(BaseCommand):
@@ -110,6 +110,9 @@ class Command(BaseCommand):
             if created:
                 created_count += 1
 
+                if created_count <= 2:
+                    self.create_breaking_alert(article)
+
         self.stdout.write(
             self.style.SUCCESS(
                 f"{local_category_name}: {created_count} new articles added."
@@ -117,3 +120,18 @@ class Command(BaseCommand):
         )
 
         return created_count
+
+    def create_breaking_alert(self, article):
+        existing_alert = BreakingNewsAlert.objects.filter(article=article).exists()
+
+        if existing_alert:
+            return False
+
+        BreakingNewsAlert.objects.create(
+            article=article,
+            alert_title=article.title,
+            message=article.description or article.get_quick_summary(),
+            is_active=True,
+        )
+
+        return True
