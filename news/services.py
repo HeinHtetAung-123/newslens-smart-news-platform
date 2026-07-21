@@ -1,18 +1,34 @@
+import re
+
+
+def clean_article_text(text):
+    """
+    Clean article text from API formatting or unwanted extra parts.
+    """
+    if not text:
+        return ""
+
+    text = re.sub(r"\[\+\d+\schars\]", "", text)
+    text = re.sub(r"\s+", " ", text)
+
+    return text.strip()
+
+
 def generate_quick_summary(article):
     """
-    Generate a simple quick summary for an article.
-
-    This function uses the article summary if it already exists.
-    If not, it uses the description or content and shortens it into
-    a readable summary for the user.
+    Generate a short readable summary for an article.
+    Priority:
+    1. Use existing summary if available.
+    2. Use article description.
+    3. Use article content.
+    4. Show fallback message.
     """
-    if article.summary:
-        return article.summary
+    source_text = article.summary or article.description or article.content
 
-    source_text = article.description or article.content
+    source_text = clean_article_text(source_text)
 
     if not source_text:
-        return "No summary is available for this article yet."
+        return "No quick summary is available for this article yet."
 
     words = source_text.split()
 
