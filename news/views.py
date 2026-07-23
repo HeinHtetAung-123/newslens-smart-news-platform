@@ -4,6 +4,7 @@ from .models import Article, Category, SavedArticle, BreakingNewsAlert
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
+from .services import generate_bias_insight
 
 def home(request):
     articles = Article.objects.select_related("source", "category").all()
@@ -63,6 +64,7 @@ def article_detail(request, article_id):
     ).order_by("-published_at")[:4]
 
     categories = Category.objects.all()
+    bias_insight = generate_bias_insight(article)
 
     return render(
         request,
@@ -72,6 +74,7 @@ def article_detail(request, article_id):
             "categories": categories,
             "is_saved": is_saved,
             "related_articles": related_articles,
+            "bias_insight": bias_insight,
         }
     )
 

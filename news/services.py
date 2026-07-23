@@ -36,3 +36,53 @@ def generate_quick_summary(article):
         return source_text
 
     return " ".join(words[:35]) + "..."
+
+def generate_bias_insight(article):
+    """
+    Generate a simple explainable coverage insight for an article.
+    This does not claim to detect bias automatically.
+    It gives readers useful signals to support comparison.
+    """
+    text = " ".join([
+        article.title or "",
+        article.description or "",
+        article.summary or "",
+        article.content or "",
+    ]).lower()
+
+    strong_words = [
+        "shocking", "massive", "slammed", "destroyed", "furious",
+        "outrage", "explosive", "disaster", "scandal", "blasted",
+        "chaos", "crisis", "attack", "accused"
+    ]
+
+    strong_word_count = sum(1 for word in strong_words if word in text)
+
+    word_count = len(text.split())
+
+    if word_count < 60:
+        summary_length = "Short"
+    elif word_count <= 160:
+        summary_length = "Medium"
+    else:
+        summary_length = "Detailed"
+
+    if strong_word_count >= 3:
+        wording_style = "Strong wording"
+        tone_note = "This article uses several strong or emotional words. Readers should compare it with other sources."
+    elif strong_word_count >= 1:
+        wording_style = "Moderate wording"
+        tone_note = "This article includes some strong wording, but it may still be mainly informative."
+    else:
+        wording_style = "Informative wording"
+        tone_note = "This article appears to use mostly neutral or informative wording."
+
+    return {
+        "source": article.source.name,
+        "category": article.category.name,
+        "summary_length": summary_length,
+        "wording_style": wording_style,
+        "strong_word_count": strong_word_count,
+        "tone_note": tone_note,
+        "balance_note": "NewsLens recommends comparing this article with related coverage before forming a final opinion."
+    }

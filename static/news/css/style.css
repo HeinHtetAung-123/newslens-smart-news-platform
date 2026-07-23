@@ -1327,3 +1327,95 @@ a {
         width: 100%;
     }
 }
+
+/* Bias and balance insight panel */
+
+.insight-panel {
+    background: #f8fafc;
+    border: 1px solid #dbeafe;
+    border-left: 5px solid #2563eb;
+    padding: 22px;
+    border-radius: 16px;
+}
+
+.insight-header {
+    margin-bottom: 18px;
+}
+
+.insight-badge {
+    display: inline-block;
+    background: #eef2ff;
+    color: #1e40af;
+    padding: 7px 13px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin-bottom: 10px;
+}
+
+.insight-header h2 {
+    font-size: 24px;
+    color: #111827;
+    margin-bottom: 4px;
+}
+
+.insight-header p {
+    color: #6b7280;
+}
+
+.insight-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 18px;
+}
+
+.insight-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 14px;
+    padding: 14px;
+}
+
+.insight-card span {
+    display: block;
+    color: #6b7280;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 4px;
+}
+
+.insight-card strong {
+    color: #111827;
+    font-size: 17px;
+}
+
+.insight-note {
+    background: white;
+    border-radius: 14px;
+    padding: 16px;
+    border: 1px solid #e5e7eb;
+}
+
+.insight-note p {
+    color: #374151;
+    margin-bottom: 8px;
+}
+
+.insight-note p:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 900px) {
+    .insight-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .insight-grid {
+        grid-template-columns: 1fr;
+    }
+}

@@ -25,6 +25,43 @@
             <p>{{ article.get_quick_summary }}</p>
         </section>
 
+        <section class="detail-section insight-panel">
+            <div class="insight-header">
+                <span class="insight-badge">Coverage Insight</span>
+                <h2>Bias and balance signals</h2>
+                <p>
+                    This is an explainable reading aid, not an automatic judgment of bias.
+                </p>
+            </div>
+
+            <div class="insight-grid">
+                <div class="insight-card">
+                    <span>Source</span>
+                    <strong>{{ bias_insight.source }}</strong>
+                </div>
+
+                <div class="insight-card">
+                    <span>Category</span>
+                    <strong>{{ bias_insight.category }}</strong>
+                </div>
+
+                <div class="insight-card">
+                    <span>Summary Length</span>
+                    <strong>{{ bias_insight.summary_length }}</strong>
+                </div>
+
+                <div class="insight-card">
+                    <span>Wording Style</span>
+                    <strong>{{ bias_insight.wording_style }}</strong>
+                </div>
+            </div>
+
+            <div class="insight-note">
+                <p>{{ bias_insight.tone_note }}</p>
+                <p>{{ bias_insight.balance_note }}</p>
+            </div>
+        </section>
+
         {% if article.description %}
             <section class="detail-section">
                 <h2>Description</h2>
