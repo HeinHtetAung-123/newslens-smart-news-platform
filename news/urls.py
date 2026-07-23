@@ -14,4 +14,5 @@ urlpatterns = [
     path("saved/", views.saved_articles, name="saved_articles"),
     path("article/<int:article_id>/compare/", views.compare_sources, name="compare_sources"),
     path("preferences/", views.user_preferences, name="user_preferences"),
+    path("admin-dashboard/", views.admin_dashboard, name="admin_dashboard"),
 ]

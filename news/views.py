@@ -5,6 +5,7 @@ from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from .services import generate_bias_insight
+from django.contrib.admin.views.decorators import staff_member_required
 
 def home(request):
     articles = Article.objects.select_related("source", "category").all()
@@ -223,5 +224,40 @@ def user_preferences(request):
         {
             "categories": categories,
             "selected_categories": selected_categories,
+        }
+    )
+
+@staff_member_required
+def admin_dashboard(request):
+    total_articles = Article.objects.count()
+    total_categories = Category.objects.count()
+    total_saved_articles = SavedArticle.objects.count()
+    total_breaking_alerts = BreakingNewsAlert.objects.count()
+    active_breaking_alerts = BreakingNewsAlert.objects.filter(is_active=True).count()
+
+    latest_articles = Article.objects.select_related(
+        "source",
+        "category"
+    ).order_by("-published_at")[:5]
+
+    latest_alerts = BreakingNewsAlert.objects.select_related(
+        "article",
+        "article__source"
+    ).order_by("-created_at")[:5]
+
+    categories = Category.objects.all()
+
+    return render(
+        request,
+        "news/admin_dashboard.html",
+        {
+            "total_articles": total_articles,
+            "total_categories": total_categories,
+            "total_saved_articles": total_saved_articles,
+            "total_breaking_alerts": total_breaking_alerts,
+            "active_breaking_alerts": active_breaking_alerts,
+            "latest_articles": latest_articles,
+            "latest_alerts": latest_alerts,
+            "categories": categories,
         }
     )

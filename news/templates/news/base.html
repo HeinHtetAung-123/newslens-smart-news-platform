@@ -35,6 +35,10 @@
                         <a href="{% url 'news:saved_articles' %}">Saved Articles</a>
                         <a href="{% url 'news:user_preferences' %}">Preferences</a>
 
+                        {% if user.is_staff %}
+                            <a href="{% url 'news:admin_dashboard' %}">Admin Dashboard</a>
+                        {% endif %}
+
                         <form action="{% url 'logout' %}" method="post" class="logout-form">
                             {% csrf_token %}
                             <button type="submit">Logout</button>

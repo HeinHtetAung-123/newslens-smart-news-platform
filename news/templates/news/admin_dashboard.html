@@ -1,0 +1,89 @@
+{% extends "news/base.html" %}
+
+{% block title %}
+    Admin Dashboard | NewsLens
+{% endblock %}
+
+{% block content %}
+    <section class="page-heading">
+        <h1>Admin Dashboard</h1>
+        <p>
+            Manage NewsLens content, monitor articles, and review breaking news activity.
+        </p>
+    </section>
+
+    <section class="admin-stats-grid">
+        <article class="admin-stat-card">
+            <span>Total Articles</span>
+            <strong>{{ total_articles }}</strong>
+        </article>
+
+        <article class="admin-stat-card">
+            <span>Categories</span>
+            <strong>{{ total_categories }}</strong>
+        </article>
+
+        <article class="admin-stat-card">
+            <span>Saved Articles</span>
+            <strong>{{ total_saved_articles }}</strong>
+        </article>
+
+        <article class="admin-stat-card">
+            <span>Active Alerts</span>
+            <strong>{{ active_breaking_alerts }}</strong>
+        </article>
+    </section>
+
+    <section class="admin-panel-grid">
+        <article class="admin-panel-card">
+            <h2>Latest Articles</h2>
+
+            {% for article in latest_articles %}
+                <div class="admin-list-item">
+                    <strong>{{ article.title }}</strong>
+                    <p>{{ article.source.name }} · {{ article.category.name }}</p>
+                </div>
+            {% empty %}
+                <p class="empty-text">No articles available yet.</p>
+            {% endfor %}
+        </article>
+
+        <article class="admin-panel-card">
+            <h2>Latest Breaking Alerts</h2>
+
+            {% for alert in latest_alerts %}
+                <div class="admin-list-item">
+                    <strong>{{ alert.alert_title }}</strong>
+                    <p>
+                        {{ alert.article.source.name }}
+                        {% if alert.is_active %}
+                            · Active
+                        {% else %}
+                            · Inactive
+                        {% endif %}
+                    </p>
+                </div>
+            {% empty %}
+                <p class="empty-text">No breaking alerts available yet.</p>
+            {% endfor %}
+        </article>
+    </section>
+
+    <section class="admin-actions-card">
+        <h2>Admin Actions</h2>
+        <p>
+            Use Django admin for detailed content management such as adding articles,
+            categories, sources, and breaking news alerts.
+        </p>
+
+        <div class="card-actions">
+            <a href="/admin/" class="btn btn-primary">
+                Open Django Admin
+            </a>
+
+            <a href="{% url 'news:home' %}" class="btn btn-secondary">
+                Back to homepage
+            </a>
+        </div>
+    </section>
+{% endblock %}
