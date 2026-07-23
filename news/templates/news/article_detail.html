@@ -83,46 +83,4 @@
             </div>
         </div>
     </article>
-
-    {% if related_articles %}
-        <section class="detail-card comparison-section">
-            <div class="comparison-header">
-                <span class="comparison-badge">Source Comparison</span>
-                <h2>Compare with related coverage</h2>
-                <p>
-                    These articles are from the same category and can help readers compare
-                    how different sources report similar stories.
-                </p>
-            </div>
-
-            <div class="comparison-list">
-                {% for related in related_articles %}
-                    <article class="comparison-card">
-                        <div class="article-meta">
-                            <span>{{ related.source.name }}</span>
-                            <span>{{ related.category.name }}</span>
-                        </div>
-
-                        <h3>
-                            <a href="{% url 'news:article_detail' related.id %}">
-                                {{ related.title }}
-                            </a>
-                        </h3>
-
-                        <p class="published-date">
-                            Published {{ related.published_at|date:"M d, Y H:i" }}
-                        </p>
-
-                        <p>
-                            {{ related.get_quick_summary|truncatewords:30 }}
-                        </p>
-
-                        <a href="{% url 'news:article_detail' related.id %}" class="btn btn-primary">
-                            Compare article
-                        </a>
-                    </article>
-                {% endfor %}
-            </div>
-        </section>
-    {% endif %}
 {% endblock %}

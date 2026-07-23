@@ -15,9 +15,9 @@
     <section class="comparison-overview">
         <div>
             <span class="comparison-badge">Comparison Focus</span>
-            <h2>Selected article compared with related coverage</h2>
+            <h2>Selected article connected to related coverage</h2>
             <p>
-                This page helps readers compare the source, publication time, wording,
+                This page helps readers compare source, publication time, headline wording,
                 quick summary, and article focus across related stories.
             </p>
         </div>
@@ -27,6 +27,36 @@
             <span>related articles found</span>
         </div>
     </section>
+
+    <section class="source-map-section">
+        <div class="source-map-header">
+            <span class="comparison-badge">Visual Source Map</span>
+            <h2>How the coverage connects</h2>
+            <p>
+                The selected article is placed at the centre, with related coverage visually connected around it.
+            </p>
+        </div>
+
+        <div class="source-network">
+            <div class="network-center">
+                <span>Original Source</span>
+                <strong>{{ main_article.source.name }}</strong>
+                <small>{{ main_article.category.name }}</small>
+            </div>
+
+            <div class="network-ring">
+                {% for related in related_articles %}
+                    <a href="{% url 'news:article_detail' related.id %}" class="network-node node-{{ forloop.counter }}">
+                        <span>Related</span>
+                        <strong>{{ related.source.name }}</strong>
+                        <small>{{ related.published_at|date:"M d, H:i" }}</small>
+                    </a>
+                {% empty %}
+                    <p class="empty-text">No related articles available for the visual map yet.</p>
+                {% endfor %}
+            </div>
+        </div>
+</section>
 
     <section class="compare-layout">
         <article class="compare-main-card">
@@ -113,58 +143,45 @@
     {% if related_articles %}
         <section class="comparison-table-section">
             <div class="comparison-header">
-                <span class="comparison-badge">Side-by-side comparison</span>
-                <h2>Comparison details</h2>
+                <span class="comparison-badge">Comparison Details</span>
+                <h2>Related coverage table</h2>
                 <p>
-                    This table makes the comparison clearer by placing the selected article
-                    and related coverage side by side.
+                    The selected article is shown once above. This table lists the related articles
+                    so readers can compare their sources, headlines, dates, and summaries.
                 </p>
+            </div>
+
+            <div class="selected-reference-card">
+                <h3>Selected Article Reference</h3>
+                <p><strong>Source:</strong> {{ main_article.source.name }}</p>
+                <p><strong>Headline:</strong> {{ main_article.title }}</p>
+                <p><strong>Published:</strong> {{ main_article.published_at|date:"M d, Y H:i" }}</p>
             </div>
 
             <div class="comparison-table-wrapper">
                 <table class="comparison-table">
                     <thead>
                         <tr>
-                            <th>Comparison Area</th>
-                            <th>Selected Article</th>
-                            <th>Related Coverage</th>
+                            <th>Related Source</th>
+                            <th>Published</th>
+                            <th>Headline</th>
+                            <th>Quick Summary</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         {% for related in related_articles %}
                             <tr>
-                                <td>Source</td>
-                                <td>{{ main_article.source.name }}</td>
                                 <td>{{ related.source.name }}</td>
-                            </tr>
-
-                            <tr>
-                                <td>Category</td>
-                                <td>{{ main_article.category.name }}</td>
-                                <td>{{ related.category.name }}</td>
-                            </tr>
-
-                            <tr>
-                                <td>Published Date</td>
-                                <td>{{ main_article.published_at|date:"M d, Y H:i" }}</td>
                                 <td>{{ related.published_at|date:"M d, Y H:i" }}</td>
-                            </tr>
-
-                            <tr>
-                                <td>Headline</td>
-                                <td>{{ main_article.title }}</td>
                                 <td>{{ related.title }}</td>
-                            </tr>
-
-                            <tr>
-                                <td>Quick Summary</td>
-                                <td>{{ main_article.get_quick_summary|truncatewords:35 }}</td>
-                                <td>{{ related.get_quick_summary|truncatewords:35 }}</td>
-                            </tr>
-
-                            <tr class="comparison-divider">
-                                <td colspan="3"></td>
+                                <td>{{ related.get_quick_summary|truncatewords:30 }}</td>
+                                <td>
+                                    <a href="{% url 'news:article_detail' related.id %}" class="table-link">
+                                        View article
+                                    </a>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
