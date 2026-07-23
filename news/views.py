@@ -1,6 +1,6 @@
 from django.db.models import Q
 from django.shortcuts import render, get_object_or_404, redirect
-from .models import Article, Category, SavedArticle, BreakingNewsAlert
+from .models import Article, Category, SavedArticle, BreakingNewsAlert, UserPreference
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
@@ -15,14 +15,32 @@ def home(request):
         "article__category"
     ).filter(is_active=True)[:3]
 
-    context = {
-        "articles": articles,
-        "categories": categories,
-        "active_category": None,
-        "breaking_alerts": breaking_alerts,
-    }
+    recommended_articles = []
 
-    return render(request, "news/home.html", context)
+    if request.user.is_authenticated:
+        preference = UserPreference.objects.filter(user=request.user).first()
+
+        if preference:
+            preferred_categories = preference.preferred_categories.all()
+
+            recommended_articles = Article.objects.select_related(
+                "source",
+                "category"
+            ).filter(
+                category__in=preferred_categories
+            ).order_by("-published_at")[:4]
+
+    return render(
+        request,
+        "news/home.html",
+        {
+            "articles": articles,
+            "categories": categories,
+            "active_category": None,
+            "breaking_alerts": breaking_alerts,
+            "recommended_articles": recommended_articles,
+        }
+    )
 
 def category_articles(request, slug):
     category = get_object_or_404(Category, slug=slug)
@@ -181,3 +199,29 @@ def saved_articles(request):
     }
 
     return render(request, "news/saved_articles.html", context)
+
+@login_required
+def user_preferences(request):
+    categories = Category.objects.all()
+
+    preference, created = UserPreference.objects.get_or_create(
+        user=request.user
+    )
+
+    if request.method == "POST":
+        selected_category_ids = request.POST.getlist("categories")
+
+        preference.preferred_categories.set(selected_category_ids)
+
+        return redirect("news:home")
+
+    selected_categories = preference.preferred_categories.all()
+
+    return render(
+        request,
+        "news/user_preferences.html",
+        {
+            "categories": categories,
+            "selected_categories": selected_categories,
+        }
+    )

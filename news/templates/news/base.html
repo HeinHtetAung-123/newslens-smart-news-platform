@@ -33,6 +33,7 @@
                     {% if user.is_authenticated %}
                         <span>Hi, {{ user.username }}</span>
                         <a href="{% url 'news:saved_articles' %}">Saved Articles</a>
+                        <a href="{% url 'news:user_preferences' %}">Preferences</a>
 
                         <form action="{% url 'logout' %}" method="post" class="logout-form">
                             {% csrf_token %}

@@ -40,6 +40,47 @@
         </section>
     {% endif %}
 
+    {% if recommended_articles %}
+        <section class="recommended-section">
+            <div class="recommended-header">
+                <span class="recommended-badge">Recommended for you</span>
+                <h2>Based on your preferred categories</h2>
+                <p>
+                    These articles match the categories selected in your NewsLens preferences.
+                </p>
+            </div>
+
+            <div class="recommended-list">
+                {% for article in recommended_articles %}
+                    <article class="recommended-card">
+                        <div class="article-meta">
+                            <span>{{ article.source.name }}</span>
+                            <span>{{ article.category.name }}</span>
+                        </div>
+
+                        <h3>
+                            <a href="{% url 'news:article_detail' article.id %}">
+                                {{ article.title }}
+                            </a>
+                        </h3>
+
+                        <p class="published-date">
+                            Published {{ article.published_at|date:"M d, Y H:i" }}
+                        </p>
+
+                        <p>
+                            {{ article.get_quick_summary|truncatewords:25 }}
+                        </p>
+
+                        <a href="{% url 'news:article_detail' article.id %}" class="btn btn-secondary">
+                            Read recommended article
+                        </a>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
+
     <section class="page-heading">
         {% if active_category %}
             <h1>{{ active_category.name }} News</h1>

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, NewsSource, Article, SavedArticle, BreakingNewsAlert
+from .models import Category, NewsSource, Article, SavedArticle, BreakingNewsAlert, UserPreference
 
 
 @admin.register(Category)
@@ -32,3 +32,8 @@ class BreakingNewsAlertAdmin(admin.ModelAdmin):
     list_display = ("alert_title", "article", "is_active", "created_at")
     list_filter = ("is_active", "created_at")
     search_fields = ("alert_title", "message", "article__title")
+
+@admin.register(UserPreference)
+class UserPreferenceAdmin(admin.ModelAdmin):
+    list_display = ("user",)
+    filter_horizontal = ("preferred_categories",)

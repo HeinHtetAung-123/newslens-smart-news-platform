@@ -90,3 +90,18 @@ class BreakingNewsAlert(models.Model):
 
     def __str__(self):
         return self.alert_title
+
+class UserPreference(models.Model):
+    user = models.OneToOneField(
+        User,
+        on_delete=models.CASCADE,
+        related_name="preference"
+    )
+    preferred_categories = models.ManyToManyField(
+        Category,
+        blank=True,
+        related_name="preferred_by_users"
+    )
+
+    def __str__(self):
+        return f"{self.user.username}'s preferences"

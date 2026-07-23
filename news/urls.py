@@ -13,4 +13,5 @@ urlpatterns = [
     path("article/<int:article_id>/remove/", views.remove_saved_article, name="remove_saved_article"),
     path("saved/", views.saved_articles, name="saved_articles"),
     path("article/<int:article_id>/compare/", views.compare_sources, name="compare_sources"),
+    path("preferences/", views.user_preferences, name="user_preferences"),
 ]
