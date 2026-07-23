@@ -1,0 +1,96 @@
+{% extends "news/base.html" %}
+
+{% block title %}
+    Compare Sources | NewsLens
+{% endblock %}
+
+{% block content %}
+    <section class="page-heading">
+        <h1>Compare Sources</h1>
+        <p>
+            Compare how different sources report related stories from the same category.
+        </p>
+    </section>
+
+    <section class="compare-layout">
+        <article class="compare-main-card">
+            <span class="comparison-badge">Selected Article</span>
+
+            <div class="article-meta">
+                <span>{{ main_article.source.name }}</span>
+                <span>{{ main_article.category.name }}</span>
+                <span>{{ main_article.published_at|date:"M d, Y H:i" }}</span>
+            </div>
+
+            <h2>{{ main_article.title }}</h2>
+
+            <div class="summary-box">
+                <strong>Quick Summary</strong>
+                <p>{{ main_article.get_quick_summary }}</p>
+            </div>
+
+            {% if main_article.description %}
+                <div class="compare-section-block">
+                    <h3>Description</h3>
+                    <p>{{ main_article.description }}</p>
+                </div>
+            {% endif %}
+
+            <div class="card-actions">
+                <a href="{% url 'news:article_detail' main_article.id %}" class="btn btn-primary">
+                    Back to article
+                </a>
+
+                <a href="{{ main_article.original_url }}" target="_blank" class="btn btn-secondary">
+                    Original source
+                </a>
+            </div>
+        </article>
+
+        <aside class="compare-side-panel">
+            <h2>Related Coverage</h2>
+            <p>
+                These articles are selected from the same category so readers can compare wording,
+                focus, source, and summary.
+            </p>
+
+            {% if related_articles %}
+                <div class="compare-related-list">
+                    {% for related in related_articles %}
+                        <article class="compare-related-card">
+                            <div class="article-meta">
+                                <span>{{ related.source.name }}</span>
+                                <span>{{ related.published_at|date:"M d, Y H:i" }}</span>
+                            </div>
+
+                            <h3>
+                                <a href="{% url 'news:article_detail' related.id %}">
+                                    {{ related.title }}
+                                </a>
+                            </h3>
+
+                            <p>{{ related.get_quick_summary|truncatewords:32 }}</p>
+
+                            <div class="card-actions">
+                                <a href="{% url 'news:article_detail' related.id %}" class="btn btn-secondary">
+                                    View article
+                                </a>
+
+                                <a href="{{ related.original_url }}" target="_blank" class="btn btn-secondary">
+                                    Original source
+                                </a>
+                            </div>
+                        </article>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <h2>No related articles found</h2>
+                    <p>
+                        Add or fetch more articles in this category to compare sources.
+                    </p>
+                </div>
+            {% endif %}
+        </aside>
+    </section>
+{% endblock %}

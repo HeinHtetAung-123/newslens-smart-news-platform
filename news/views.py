@@ -75,6 +75,30 @@ def article_detail(request, article_id):
         }
     )
 
+def compare_sources(request, article_id):
+    main_article = get_object_or_404(
+        Article.objects.select_related("source", "category"),
+        id=article_id
+    )
+
+    related_articles = Article.objects.select_related("source", "category").filter(
+        category=main_article.category
+    ).exclude(
+        id=main_article.id
+    ).order_by("-published_at")[:6]
+
+    categories = Category.objects.all()
+
+    return render(
+        request,
+        "news/compare_sources.html",
+        {
+            "main_article": main_article,
+            "related_articles": related_articles,
+            "categories": categories,
+        }
+    )
+
 def search_articles(request):
     query = request.GET.get("q", "").strip()
     categories = Category.objects.all()

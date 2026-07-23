@@ -70,6 +70,10 @@
                 Original source
             </a>
 
+            <a href="{% url 'news:compare_sources' article.id %}" class="btn btn-primary">
+                Compare sources
+            </a>
+
             <a href="{% url 'news:home' %}" class="btn btn-secondary">
                 Back to home
             </a>
@@ -109,7 +113,7 @@
                             {{ related.get_quick_summary|truncatewords:30 }}
                         </p>
 
-                        <a href="{% url 'news:article_detail' related.id %}" class="btn btn-secondary">
+                        <a href="{% url 'news:article_detail' related.id %}" class="btn btn-primary">
                             Compare article
                         </a>
                     </article>
