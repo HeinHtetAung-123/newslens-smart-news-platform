@@ -7,11 +7,11 @@
 {% block content %}
     <article class="detail-card">
         <div class="detail-header">
-            <p class="article-meta">
+            <div class="article-meta">
                 <span>{{ article.source.name }}</span>
                 <span>{{ article.category.name }}</span>
                 <span>{{ article.published_at|date:"M d, Y H:i" }}</span>
-            </p>
+            </div>
 
             <h1>{{ article.title }}</h1>
         </div>
@@ -20,12 +20,10 @@
             <img src="{{ article.image_url }}" alt="{{ article.title }}" class="detail-image">
         {% endif %}
 
-        {% if article.summary %}
-           <section class="detail-section summary-highlight">
-                <h2>Quick Summary</h2>
-                <p>{{ article.get_quick_summary }}</p>
-            </section>
-        {% endif %}
+        <section class="detail-section summary-highlight">
+            <h2>Quick Summary</h2>
+            <p>{{ article.get_quick_summary }}</p>
+        </section>
 
         {% if article.description %}
             <section class="detail-section">
@@ -49,7 +47,7 @@
             </section>
         {% endif %}
 
-       <div class="detail-actions">
+        <div class="detail-actions">
             {% if user.is_authenticated %}
                 {% if is_saved %}
                     <span class="saved-status">Saved</span>
@@ -77,4 +75,46 @@
             </a>
         </div>
     </article>
+
+    {% if related_articles %}
+        <section class="detail-card comparison-section">
+            <div class="comparison-header">
+                <span class="comparison-badge">Source Comparison</span>
+                <h2>Compare with related coverage</h2>
+                <p>
+                    These articles are from the same category and can help readers compare
+                    how different sources report similar stories.
+                </p>
+            </div>
+
+            <div class="comparison-list">
+                {% for related in related_articles %}
+                    <article class="comparison-card">
+                        <div class="article-meta">
+                            <span>{{ related.source.name }}</span>
+                            <span>{{ related.category.name }}</span>
+                        </div>
+
+                        <h3>
+                            <a href="{% url 'news:article_detail' related.id %}">
+                                {{ related.title }}
+                            </a>
+                        </h3>
+
+                        <p class="published-date">
+                            Published {{ related.published_at|date:"M d, Y H:i" }}
+                        </p>
+
+                        <p>
+                            {{ related.get_quick_summary|truncatewords:30 }}
+                        </p>
+
+                        <a href="{% url 'news:article_detail' related.id %}" class="btn btn-secondary">
+                            Compare article
+                        </a>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+    {% endif %}
 {% endblock %}

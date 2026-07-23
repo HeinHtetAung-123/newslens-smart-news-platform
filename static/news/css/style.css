@@ -647,3 +647,43 @@ a {
     font-weight: 800;
     font-size: 14px;
 }
+
+/* Same-story comparison */
+
+.comparison-section {
+    margin-top: 34px;
+}
+
+.section-note {
+    color: #6b7280;
+    margin-bottom: 18px;
+}
+
+.comparison-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+}
+
+.comparison-card {
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 18px;
+}
+
+.comparison-card h3 {
+    font-size: 20px;
+    line-height: 1.3;
+    margin-bottom: 8px;
+    color: #111827;
+}
+
+.comparison-card h3 a:hover {
+    color: #2563eb;
+}
+
+.comparison-card p {
+    margin-bottom: 12px;
+    color: #374151;
+}

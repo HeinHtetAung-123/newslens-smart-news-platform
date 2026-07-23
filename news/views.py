@@ -56,6 +56,12 @@ def article_detail(request, article_id):
             article=article
         ).exists()
 
+    related_articles = Article.objects.select_related("source", "category").filter(
+        category=article.category
+    ).exclude(
+        id=article.id
+    ).order_by("-published_at")[:4]
+
     categories = Category.objects.all()
 
     return render(
@@ -65,6 +71,7 @@ def article_detail(request, article_id):
             "article": article,
             "categories": categories,
             "is_saved": is_saved,
+            "related_articles": related_articles,
         }
     )
 
