@@ -47,36 +47,40 @@
             </section>
         {% endif %}
 
-        <div class="detail-actions">
-            {% if user.is_authenticated %}
-                {% if is_saved %}
-                    <span class="saved-status">Saved</span>
+        <div class="detail-actions clean-detail-actions">
+            <div class="primary-actions">
+                {% if user.is_authenticated %}
+                    {% if is_saved %}
+                        <span class="saved-status">Saved</span>
 
-                    <a href="{% url 'news:remove_saved_article' article.id %}" class="btn btn-secondary">
-                        Remove from saved
-                    </a>
+                        <a href="{% url 'news:remove_saved_article' article.id %}" class="btn btn-secondary">
+                            Remove from saved
+                        </a>
+                    {% else %}
+                        <a href="{% url 'news:save_article' article.id %}" class="btn btn-primary">
+                            Save article
+                        </a>
+                    {% endif %}
                 {% else %}
-                    <a href="{% url 'news:save_article' article.id %}" class="btn btn-primary">
-                        Save article
+                    <a href="{% url 'login' %}" class="btn btn-primary">
+                        Login to save
                     </a>
                 {% endif %}
-            {% else %}
-                <a href="{% url 'login' %}" class="btn btn-primary">
-                    Login to save
+
+                <a href="{{ article.original_url }}" target="_blank" class="btn btn-secondary">
+                    Original source
                 </a>
-            {% endif %}
+            </div>
 
-            <a href="{{ article.original_url }}" target="_blank" class="btn btn-secondary">
-                Original source
-            </a>
+            <div class="secondary-actions">
+                <a href="{% url 'news:compare_sources' article.id %}" class="btn btn-outline-primary">
+                    Compare sources
+                </a>
 
-            <a href="{% url 'news:compare_sources' article.id %}" class="btn btn-primary">
-                Compare sources
-            </a>
-
-            <a href="{% url 'news:home' %}" class="btn btn-secondary">
-                Back to home
-            </a>
+                <a href="{% url 'news:home' %}" class="btn btn-outline-secondary">
+                    Back to home
+                </a>
+            </div>
         </div>
     </article>
 

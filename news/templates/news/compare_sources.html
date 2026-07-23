@@ -12,6 +12,22 @@
         </p>
     </section>
 
+    <section class="comparison-overview">
+        <div>
+            <span class="comparison-badge">Comparison Focus</span>
+            <h2>Selected article compared with related coverage</h2>
+            <p>
+                This page helps readers compare the source, publication time, wording,
+                quick summary, and article focus across related stories.
+            </p>
+        </div>
+
+        <div class="comparison-count">
+            <strong>{{ related_articles|length }}</strong>
+            <span>related articles found</span>
+        </div>
+    </section>
+
     <section class="compare-layout">
         <article class="compare-main-card">
             <span class="comparison-badge">Selected Article</span>
@@ -24,7 +40,7 @@
 
             <h2>{{ main_article.title }}</h2>
 
-            <div class="summary-box">
+            <div class="summary-box compare-summary-box">
                 <strong>Quick Summary</strong>
                 <p>{{ main_article.get_quick_summary }}</p>
             </div>
@@ -50,8 +66,8 @@
         <aside class="compare-side-panel">
             <h2>Related Coverage</h2>
             <p>
-                These articles are selected from the same category so readers can compare wording,
-                focus, source, and summary.
+                These articles are selected from the same category so readers can compare
+                wording, focus, source, and summary.
             </p>
 
             {% if related_articles %}
@@ -93,4 +109,67 @@
             {% endif %}
         </aside>
     </section>
+
+    {% if related_articles %}
+        <section class="comparison-table-section">
+            <div class="comparison-header">
+                <span class="comparison-badge">Side-by-side comparison</span>
+                <h2>Comparison details</h2>
+                <p>
+                    This table makes the comparison clearer by placing the selected article
+                    and related coverage side by side.
+                </p>
+            </div>
+
+            <div class="comparison-table-wrapper">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Comparison Area</th>
+                            <th>Selected Article</th>
+                            <th>Related Coverage</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        {% for related in related_articles %}
+                            <tr>
+                                <td>Source</td>
+                                <td>{{ main_article.source.name }}</td>
+                                <td>{{ related.source.name }}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Category</td>
+                                <td>{{ main_article.category.name }}</td>
+                                <td>{{ related.category.name }}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Published Date</td>
+                                <td>{{ main_article.published_at|date:"M d, Y H:i" }}</td>
+                                <td>{{ related.published_at|date:"M d, Y H:i" }}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Headline</td>
+                                <td>{{ main_article.title }}</td>
+                                <td>{{ related.title }}</td>
+                            </tr>
+
+                            <tr>
+                                <td>Quick Summary</td>
+                                <td>{{ main_article.get_quick_summary|truncatewords:35 }}</td>
+                                <td>{{ related.get_quick_summary|truncatewords:35 }}</td>
+                            </tr>
+
+                            <tr class="comparison-divider">
+                                <td colspan="3"></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    {% endif %}
 {% endblock %}
