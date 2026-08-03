@@ -5,47 +5,32 @@
 {% endblock %}
 
 {% block content %}
-    <section class="page-heading">
+    <section class="page-heading compare-page-heading">
         <h1>Compare Sources</h1>
         <p>
             Compare how different sources report related stories from the same category.
         </p>
     </section>
 
-    <section class="comparison-overview">
-        <div>
-            <span class="comparison-badge">Comparison Focus</span>
-            <h2>Selected article connected to related coverage</h2>
-            <p>
-                This page helps readers compare source, publication time, headline wording,
-                quick summary, and article focus across related stories.
-            </p>
-        </div>
-
-        <div class="comparison-count">
-            <strong>{{ related_articles|length }}</strong>
-            <span>related articles found</span>
-        </div>
-    </section>
-
-    <section class="source-map-section">
+   <section class="source-map-section">
         <div class="source-map-header">
             <span class="comparison-badge">Visual Source Map</span>
-            <h2>How the coverage connects</h2>
+            <h2>Coverage network</h2>
             <p>
-                The selected article is placed at the centre, with related coverage visually connected around it.
+                The selected article sits at the centre while every related source is directly connected to it.
             </p>
         </div>
 
         <div class="source-network">
-            <div class="network-center">
-                <span>Original Source</span>
-                <strong>{{ main_article.source.name }}</strong>
-                <small>{{ main_article.category.name }}</small>
-            </div>
+            <div class="network-background-glow"></div>
+            <div class="network-orbit orbit-one"></div>
+            <div class="network-orbit orbit-two"></div>
+            <div class="network-orbit orbit-three"></div>
 
             <div class="network-ring">
                 {% for related in related_articles %}
+                    <span class="network-connector connector-{{ forloop.counter }}"></span>
+
                     <a href="{% url 'news:article_detail' related.id %}" class="network-node node-{{ forloop.counter }}">
                         <span>Related</span>
                         <strong>{{ related.source.name }}</strong>
@@ -55,11 +40,17 @@
                     <p class="empty-text">No related articles available for the visual map yet.</p>
                 {% endfor %}
             </div>
-        </div>
-</section>
 
-    <section class="compare-layout">
-        <article class="compare-main-card">
+            <div class="network-center">
+                <span>Original Source</span>
+                <strong>{{ main_article.source.name }}</strong>
+                <small>{{ main_article.category.name }}</small>
+            </div>
+        </div>
+    </section>
+
+    <section class="comparison-feature-card">
+        <div class="feature-main">
             <span class="comparison-badge">Selected Article</span>
 
             <div class="article-meta">
@@ -70,17 +61,9 @@
 
             <h2>{{ main_article.title }}</h2>
 
-            <div class="summary-box compare-summary-box">
-                <strong>Quick Summary</strong>
-                <p>{{ main_article.get_quick_summary }}</p>
-            </div>
-
-            {% if main_article.description %}
-                <div class="compare-section-block">
-                    <h3>Description</h3>
-                    <p>{{ main_article.description }}</p>
-                </div>
-            {% endif %}
+            <p>
+                {{ main_article.get_quick_summary|truncatewords:45 }}
+            </p>
 
             <div class="card-actions">
                 <a href="{% url 'news:article_detail' main_article.id %}" class="btn btn-primary">
@@ -91,102 +74,104 @@
                     Original source
                 </a>
             </div>
-        </article>
+        </div>
 
-        <aside class="compare-side-panel">
-            <h2>Related Coverage</h2>
-            <p>
-                These articles are selected from the same category so readers can compare
-                wording, focus, source, and summary.
-            </p>
-
-            {% if related_articles %}
-                <div class="compare-related-list">
-                    {% for related in related_articles %}
-                        <article class="compare-related-card">
-                            <div class="article-meta">
-                                <span>{{ related.source.name }}</span>
-                                <span>{{ related.published_at|date:"M d, Y H:i" }}</span>
-                            </div>
-
-                            <h3>
-                                <a href="{% url 'news:article_detail' related.id %}">
-                                    {{ related.title }}
-                                </a>
-                            </h3>
-
-                            <p>{{ related.get_quick_summary|truncatewords:32 }}</p>
-
-                            <div class="card-actions">
-                                <a href="{% url 'news:article_detail' related.id %}" class="btn btn-secondary">
-                                    View article
-                                </a>
-
-                                <a href="{{ related.original_url }}" target="_blank" class="btn btn-secondary">
-                                    Original source
-                                </a>
-                            </div>
-                        </article>
-                    {% endfor %}
-                </div>
-            {% else %}
-                <div class="empty-state">
-                    <h2>No related articles found</h2>
-                    <p>
-                        Add or fetch more articles in this category to compare sources.
-                    </p>
-                </div>
-            {% endif %}
-        </aside>
+        <div class="feature-side">
+            <span>Comparison Mode</span>
+            <strong>{{ related_articles|length }}</strong>
+            <p>related sources found</p>
+        </div>
     </section>
 
     {% if related_articles %}
-        <section class="comparison-table-section">
+        <section class="related-dashboard">
             <div class="comparison-header">
-                <span class="comparison-badge">Comparison Details</span>
-                <h2>Related coverage table</h2>
+                <span class="comparison-badge">Related Coverage</span>
+                <h2>Source cards</h2>
                 <p>
-                    The selected article is shown once above. This table lists the related articles
-                    so readers can compare their sources, headlines, dates, and summaries.
+                    Each card shows one related source with a short summary and quick actions.
                 </p>
             </div>
 
-            <div class="selected-reference-card">
-                <h3>Selected Article Reference</h3>
-                <p><strong>Source:</strong> {{ main_article.source.name }}</p>
-                <p><strong>Headline:</strong> {{ main_article.title }}</p>
-                <p><strong>Published:</strong> {{ main_article.published_at|date:"M d, Y H:i" }}</p>
+            <div class="related-card-grid">
+                {% for related in related_articles %}
+                    <article class="related-source-card">
+                        <div class="source-card-top">
+                            <span>{{ related.source.name }}</span>
+                            <small>{{ related.published_at|date:"M d, H:i" }}</small>
+                        </div>
+
+                        <h3>
+                            <a href="{% url 'news:article_detail' related.id %}">
+                                {{ related.title }}
+                            </a>
+                        </h3>
+
+                        <p>
+                            {{ related.get_quick_summary|truncatewords:24 }}
+                        </p>
+
+                        <div class="source-card-tags">
+                            <span>{{ related.category.name }}</span>
+                            <span>Related coverage</span>
+                        </div>
+
+                        <div class="card-actions">
+                            <a href="{% url 'news:article_detail' related.id %}" class="btn btn-secondary">
+                                View
+                            </a>
+
+                            <a href="{{ related.original_url }}" target="_blank" class="btn btn-secondary">
+                                Source
+                            </a>
+                        </div>
+                    </article>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section class="comparison-insight-board">
+            <div class="comparison-header">
+                <span class="comparison-badge">Comparison Snapshot</span>
+                <h2>Quick comparison points</h2>
+                <p>
+                    A compact view of the related sources without showing long table text.
+                </p>
             </div>
 
-            <div class="comparison-table-wrapper">
-                <table class="comparison-table">
-                    <thead>
-                        <tr>
-                            <th>Related Source</th>
-                            <th>Published</th>
-                            <th>Headline</th>
-                            <th>Quick Summary</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
+            <div class="snapshot-grid">
+                {% for related in related_articles %}
+                    <article class="snapshot-card">
+                        <div class="snapshot-number">
+                            {{ forloop.counter }}
+                        </div>
 
-                    <tbody>
-                        {% for related in related_articles %}
-                            <tr>
-                                <td>{{ related.source.name }}</td>
-                                <td>{{ related.published_at|date:"M d, Y H:i" }}</td>
-                                <td>{{ related.title }}</td>
-                                <td>{{ related.get_quick_summary|truncatewords:30 }}</td>
-                                <td>
-                                    <a href="{% url 'news:article_detail' related.id %}" class="table-link">
-                                        View article
-                                    </a>
-                                </td>
-                            </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        <div>
+                            <h3>{{ related.source.name }}</h3>
+
+                            <div class="snapshot-meta">
+                                <span>{{ related.published_at|date:"M d, H:i" }}</span>
+                                <span>{{ related.category.name }}</span>
+                            </div>
+
+                            <p>
+                                {{ related.title|truncatewords:14 }}
+                            </p>
+
+                            <a href="{% url 'news:article_detail' related.id %}" class="table-link">
+                                View related article
+                            </a>
+                        </div>
+                    </article>
+                {% endfor %}
             </div>
+        </section>
+    {% else %}
+        <section class="empty-state">
+            <h2>No related articles found</h2>
+            <p>
+                Add or fetch more articles in this category to compare sources.
+            </p>
         </section>
     {% endif %}
 {% endblock %}
