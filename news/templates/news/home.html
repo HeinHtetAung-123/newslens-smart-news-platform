@@ -94,13 +94,24 @@
     <section class="article-grid">
         {% for article in articles %}
             <article class="article-card">
-                {% if article.image_url %}
-                    <img src="{{ article.image_url }}" alt="{{ article.title }}" class="article-image">
-                {% else %}
-                    <div class="article-image placeholder-image">
-                        NewsLens
+                <div class="article-image-wrap">
+                    <div class="placeholder-image">
+                        <div class="placeholder-content">
+                            <span>{{ article.category.name }}</span>
+                            <strong>NewsLens</strong>
+                            <p>No image available</p>
+                        </div>
                     </div>
-                {% endif %}
+
+                    {% if article.image_url %}
+                        <img
+                            src="{{ article.image_url }}"
+                            alt="{{ article.title }}"
+                            class="article-image"
+                            onerror="this.style.display='none';"
+                        >
+                    {% endif %}
+                </div>
 
                 <div class="article-body">
                     <div class="article-main-content">
@@ -153,53 +164,56 @@
         {% endfor %}
     </section>
 
-   {% if category_sections %}
-    <section class="category-sections">
-        <div class="category-browse-heading">
-            <span class="section-label">Browse by Category</span>
-            <h1>Explore news by topic</h1>
-            <p>Recent stories are grouped by category so the homepage feels more organised and easier to browse.</p>
-        </div>
+    {% if category_sections %}
+        <section class="category-sections">
+            <div class="category-browse-heading">
+                <span class="section-label">Browse by Category</span>
+                <h1>Explore news by topic</h1>
+                <p>
+                    Recent stories are grouped by category so the homepage feels more organised
+                    and easier to browse.
+                </p>
+            </div>
 
-        {% for section in category_sections %}
-            <section class="category-news-section">
-                <div class="category-section-header">
-                    <div>
-                        <span class="category-section-badge">
-                            {{ section.category.name }}
-                        </span>
-                        <h2>{{ section.category.name }} headlines</h2>
+            {% for section in category_sections %}
+                <section class="category-news-section">
+                    <div class="category-section-header">
+                        <div>
+                            <span class="category-section-badge">
+                                {{ section.category.name }}
+                            </span>
+                            <h2>{{ section.category.name }} headlines</h2>
+                        </div>
+
+                        <a href="{% url 'news:category_articles' section.category.slug %}" class="btn btn-outline-primary">
+                            View all
+                        </a>
                     </div>
 
-                    <a href="{% url 'news:category_articles' section.category.slug %}" class="btn btn-outline-primary">
-                        View all
-                    </a>
-                </div>
+                    <div class="compact-news-grid">
+                        {% for article in section.articles %}
+                            <article class="compact-news-card">
+                                <div class="compact-card-meta">
+                                    <span>{{ article.source.name }}</span>
+                                    <span>{{ article.published_at|date:"M d, H:i" }}</span>
+                                </div>
 
-                <div class="compact-news-grid">
-                    {% for article in section.articles %}
-                        <article class="compact-news-card">
-                            <div class="compact-card-meta">
-                                <span>{{ article.source.name }}</span>
-                                <span>{{ article.published_at|date:"M d, H:i" }}</span>
-                            </div>
+                                <h3>
+                                    <a href="{% url 'news:article_detail' article.id %}">
+                                        {{ article.title }}
+                                    </a>
+                                </h3>
 
-                            <h3>
-                                <a href="{% url 'news:article_detail' article.id %}">
-                                    {{ article.title }}
+                                <p>{{ article.get_quick_summary|truncatewords:24 }}</p>
+
+                                <a href="{% url 'news:article_detail' article.id %}" class="compact-read-link">
+                                    Read story →
                                 </a>
-                            </h3>
-
-                            <p>{{ article.get_quick_summary|truncatewords:24 }}</p>
-
-                            <a href="{% url 'news:article_detail' article.id %}" class="compact-read-link">
-                                Read story →
-                            </a>
-                        </article>
-                    {% endfor %}
-                </div>
-            </section>
-        {% endfor %}
-    </section>
-{% endif %}
+                            </article>
+                        {% endfor %}
+                    </div>
+                </section>
+            {% endfor %}
+        </section>
+    {% endif %}
 {% endblock %}

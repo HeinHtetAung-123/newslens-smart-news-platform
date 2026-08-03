@@ -18,6 +18,14 @@
 
         {% if article.image_url %}
             <img src="{{ article.image_url }}" alt="{{ article.title }}" class="detail-image">
+        {% else %}
+            <div class="detail-image detail-placeholder-image">
+                <div class="placeholder-content">
+                    <span>{{ article.category.name }}</span>
+                    <strong>NewsLens</strong>
+                    <p>No article image available</p>
+                </div>
+            </div>
         {% endif %}
 
         <section class="detail-section summary-highlight">
