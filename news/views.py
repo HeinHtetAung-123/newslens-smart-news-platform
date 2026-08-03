@@ -8,8 +8,13 @@ from .services import generate_bias_insight
 from django.contrib.admin.views.decorators import staff_member_required
 
 def home(request):
-    articles = Article.objects.select_related("source", "category").all()
+    all_articles = Article.objects.select_related(
+        "source",
+        "category"
+    ).order_by("-published_at")
+
     categories = Category.objects.all()
+
     breaking_alerts = BreakingNewsAlert.objects.select_related(
         "article",
         "article__source",
@@ -31,15 +36,34 @@ def home(request):
                 category__in=preferred_categories
             ).order_by("-published_at")[:4]
 
+    latest_articles = all_articles[:8]
+
+    category_sections = []
+
+    for category in categories:
+        category_articles = Article.objects.select_related(
+            "source",
+            "category"
+        ).filter(
+            category=category
+        ).order_by("-published_at")[:4]
+
+        if category_articles:
+            category_sections.append({
+                "category": category,
+                "articles": category_articles,
+            })
+
     return render(
         request,
         "news/home.html",
         {
-            "articles": articles,
+            "articles": latest_articles,
             "categories": categories,
             "active_category": None,
             "breaking_alerts": breaking_alerts,
             "recommended_articles": recommended_articles,
+            "category_sections": category_sections,
         }
     )
 
