@@ -132,38 +132,57 @@
 
         <section class="comparison-insight-board">
             <div class="comparison-header">
-                <span class="comparison-badge">Comparison Snapshot</span>
-                <h2>Quick comparison points</h2>
+                <span class="comparison-badge">Comparison Insights</span>
+                <h2>What to notice across sources</h2>
                 <p>
-                    A compact view of the related sources without showing long table text.
+                    Instead of repeating the related articles, this section highlights useful comparison signals.
                 </p>
             </div>
 
-            <div class="snapshot-grid">
-                {% for related in related_articles %}
-                    <article class="snapshot-card">
-                        <div class="snapshot-number">
-                            {{ forloop.counter }}
-                        </div>
+            <div class="insight-snapshot-grid">
+                <article class="insight-snapshot-card">
+                    <div class="insight-icon">1</div>
+                    <div>
+                        <h3>Source diversity</h3>
+                        <p>
+                            This story is connected with {{ related_articles|length }} related sources,
+                            which gives readers more than one perspective to check.
+                        </p>
+                    </div>
+                </article>
 
-                        <div>
-                            <h3>{{ related.source.name }}</h3>
+                <article class="insight-snapshot-card">
+                    <div class="insight-icon">2</div>
+                    <div>
+                        <h3>Same category coverage</h3>
+                        <p>
+                            Related articles are grouped under the
+                            <strong>{{ main_article.category.name }}</strong> category, making the comparison focused.
+                        </p>
+                    </div>
+                </article>
 
-                            <div class="snapshot-meta">
-                                <span>{{ related.published_at|date:"M d, H:i" }}</span>
-                                <span>{{ related.category.name }}</span>
-                            </div>
+                <article class="insight-snapshot-card">
+                    <div class="insight-icon">3</div>
+                    <div>
+                        <h3>Headline angle</h3>
+                        <p>
+                            Compare how each headline frames the story. Some headlines may focus on people,
+                            events, conflict, impact, or consequences.
+                        </p>
+                    </div>
+                </article>
 
-                            <p>
-                                {{ related.title|truncatewords:14 }}
-                            </p>
-
-                            <a href="{% url 'news:article_detail' related.id %}" class="table-link">
-                                View related article
-                            </a>
-                        </div>
-                    </article>
-                {% endfor %}
+                <article class="insight-snapshot-card">
+                    <div class="insight-icon">4</div>
+                    <div>
+                        <h3>Reading balance</h3>
+                        <p>
+                            Use the source cards above to open related coverage before forming a final opinion
+                            about the story.
+                        </p>
+                    </div>
+                </article>
             </div>
         </section>
     {% else %}

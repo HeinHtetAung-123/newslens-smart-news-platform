@@ -1975,3 +1975,59 @@ a {
     margin-top: auto;
     padding-top: 16px;
 }
+
+/* Comparison insights board */
+
+.insight-snapshot-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+}
+
+.insight-snapshot-card {
+    display: grid;
+    grid-template-columns: 58px 1fr;
+    gap: 16px;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-left: 6px solid #2563eb;
+    border-radius: 18px;
+    padding: 18px;
+    transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+}
+
+.insight-snapshot-card:hover {
+    transform: translateY(-5px);
+    border-color: #bfdbfe;
+    box-shadow: 0 16px 32px rgba(37, 99, 235, 0.14);
+}
+
+.insight-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, #2563eb, #4f46e5);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 21px;
+    box-shadow: 0 10px 20px rgba(37, 99, 235, 0.24);
+}
+
+.insight-snapshot-card h3 {
+    color: #111827;
+    font-size: 21px;
+    margin-bottom: 6px;
+}
+
+.insight-snapshot-card p {
+    color: #374151;
+}
+
+@media (max-width: 800px) {
+    .insight-snapshot-grid {
+        grid-template-columns: 1fr;
+    }
+}
