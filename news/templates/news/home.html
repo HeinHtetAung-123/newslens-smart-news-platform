@@ -72,9 +72,11 @@
                             {{ article.get_quick_summary|truncatewords:25 }}
                         </p>
 
-                        <a href="{% url 'news:article_detail' article.id %}" class="btn btn-secondary">
-                            Read recommended article
-                        </a>
+                        <div class="recommended-actions">
+                            <a href="{% url 'news:article_detail' article.id %}" class="btn btn-secondary">
+                                Read recommended article
+                            </a>
+                        </div>
                     </article>
                 {% endfor %}
             </div>

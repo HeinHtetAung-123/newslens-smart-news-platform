@@ -1917,3 +1917,61 @@ a {
         grid-template-columns: 1fr;
     }
 }
+
+/* Fix button alignment in recommended and related source cards */
+
+.recommended-list {
+    align-items: stretch;
+}
+
+.recommended-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 340px;
+}
+
+.recommended-card h3 {
+    min-height: 64px;
+}
+
+.recommended-card .published-date {
+    min-height: 24px;
+}
+
+.recommended-card p:not(.published-date) {
+    min-height: 72px;
+}
+
+.recommended-actions {
+    margin-top: auto;
+    padding-top: 16px;
+}
+
+/* Related source cards on compare page */
+
+.related-card-grid {
+    align-items: stretch;
+}
+
+.related-source-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 430px;
+}
+
+.related-source-card h3 {
+    min-height: 96px;
+}
+
+.related-source-card p {
+    min-height: 96px;
+}
+
+.source-card-tags {
+    min-height: 38px;
+}
+
+.related-source-card .card-actions {
+    margin-top: auto;
+    padding-top: 16px;
+}
