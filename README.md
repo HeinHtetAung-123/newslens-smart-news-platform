@@ -72,3 +72,4 @@ Practical 1 is focused on setting up the GitHub repository, writing the README f
 
 - [Requirements and User Stories](docs/requirements.md)
 - [Iteration Planning](docs/iteration-planning.md)
+- [Execution Tracking](docs/practical-4-iteration-1-execution.md)
