@@ -11,3 +11,11 @@ This section contains GitHub Pages documentation for completed NewsLens user sto
 | US03 | [News Categories](us03-news-categories.md) | 10 | 2 days | Completed |
 | US04 | [Article Detail Page](us04-article-detail-page.md) | 10 | 3 days | Completed |
 | US05 | [Search News](us05-search-news.md) | 20 | 3 days | Completed |
+
+## Iteration 2 Completed Stories
+
+| ID | User Story | Priority | Estimate | Status |
+|---|---|---:|---:|---|
+| US06 | [Quick Article Summary](us06-quick-article-summary.md) | 20 | 4 days | Completed |
+| US07 | [Save Articles](us07-save-articles.md) | 20 | 3 days | Completed |
+| US08 | [Breaking News Alerts](us08-breaking-news-alerts.md) | 30 | 3 days | Completed |
