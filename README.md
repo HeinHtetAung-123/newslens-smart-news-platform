@@ -73,14 +73,11 @@ Practical 1 is focused on setting up the GitHub repository, writing the README f
 - [Requirements and User Stories](docs/requirements.md)
 - [Iteration Planning](docs/iteration-planning.md)
 - [Execution Tracking](docs/practical-4-iteration-1-execution.md)
-<<<<<<< HEAD
 - [Practical 5: Iteration 1 Review](docs/practical-5-iteration-1-review.md)
-=======
 - [Completed User Story Pages](docs/user-stories/index.md)
 - [US01: User Account Access](docs/user-stories/us01-user-account-access.md)
 - [US02: Multi-Source News Feed](docs/user-stories/us02-multi-source-news-feed.md)
 - [US03: News Categories](docs/user-stories/us03-news-categories.md)
 - [US04: Article Detail Page](docs/user-stories/us04-article-detail-page.md)
 - [US05: Search News](docs/user-stories/us05-search-news.md)
->>>>>>> 075c65f (Add GitHub Pages documentation for Iteration 1 user stories)
 
