@@ -75,6 +75,7 @@ Practical 1 is focused on setting up the GitHub repository, writing the README f
 - [Execution Tracking](docs/practical-4-iteration-1-execution.md)
 - [Practical 5: Iteration 1 Review](docs/practical-5-iteration-1-review.md)
 - [Practical 6: Iteration 2 Planning and Review](docs/practical-6-iteration-2-planning-and-review.md)
+- [Practical 7: TDD and Automated Testing](docs/practical-7-tdd-testing.md)
 - [Completed User Story Pages](docs/user-stories/index.md)
 - [US01: User Account Access](docs/user-stories/us01-user-account-access.md)
 - [US02: Multi-Source News Feed](docs/user-stories/us02-multi-source-news-feed.md)
