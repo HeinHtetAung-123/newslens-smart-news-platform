@@ -72,6 +72,17 @@ Evidence:
 - Search view searches article title, description, summary, source, and category.
 - Search results page displays matching articles.
 
+The completed Iteration 1 user story pages were added under:
+
+[Completed User Story Pages](user-stories/index.md)
+
+Individual story pages:
+
+- [US01: User Account Access](user-stories/us01-user-account-access.md)
+- [US02: Multi-Source News Feed](user-stories/us02-multi-source-news-feed.md)
+- [US03: News Categories](user-stories/us03-news-categories.md)
+- [US04: Article Detail Page](user-stories/us04-article-detail-page.md)
+- [US05: Search News](user-stories/us05-search-news.md)
 ---
 
 ## 4. Unfinished User Stories
