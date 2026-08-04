@@ -1,7 +1,9 @@
 from django.contrib.auth.models import User
-from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
+from unittest.mock import Mock, patch
+from django.core.management import call_command
+from django.test import TestCase, override_settings
 
 from .models import Article, BreakingNewsAlert, Category, NewsSource, SavedArticle
 
@@ -259,3 +261,50 @@ class NewsLensTestCase(TestCase):
             reverse("news:compare_sources", args=[self.article.id])
         )
         self.assertContains(response, "New Testing Platform Announced")
+
+@override_settings(NEWS_API_KEY="fake-test-api-key")
+class FetchNewsMockTest(TestCase):
+    @patch("news.management.commands.fetch_news.requests.get")
+    def test_fetch_news_creates_article_from_mock_api_response(self, mock_get):
+        mock_response = Mock()
+        mock_response.status_code = 200
+        mock_response.json.return_value = {
+            "articles": [
+                {
+                    "title": "Mock API Test Article",
+                    "description": "This article was created from a mocked API response.",
+                    "content": "Mock content for testing.",
+                    "url": "https://example.com/mock-api-test",
+                    "urlToImage": "",
+                    "publishedAt": "2026-08-04T10:00:00Z",
+                    "source": {
+                        "name": "Mock News Source"
+                    }
+                }
+            ]
+        }
+
+        mock_get.return_value = mock_response
+
+        call_command("fetch_news")
+
+        self.assertTrue(
+            Article.objects.filter(
+                title="Mock API Test Article"
+            ).exists()
+        )
+
+    @patch("news.management.commands.fetch_news.requests.get")
+    def test_fetch_news_does_not_create_article_when_api_fails(self, mock_get):
+        mock_response = Mock()
+        mock_response.status_code = 401
+        mock_response.text = "Unauthorized"
+        mock_get.return_value = mock_response
+
+        call_command("fetch_news")
+
+        self.assertFalse(
+            Article.objects.filter(
+                title="Mock API Test Article"
+            ).exists()
+        )
