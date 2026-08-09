@@ -70,32 +70,49 @@ Practical 1 is focused on setting up the GitHub repository, writing the README f
 
 ## Project Documentation
 
+### Core Project Planning
+
 - [Requirements and User Stories](docs/requirements.md)
 - [Iteration Planning](docs/iteration-planning.md)
-- [Execution Tracking](docs/practical-4-iteration-1-execution.md)
+
+### Practical Documentation
+
+- [Practical 4: Iteration 1 Execution](docs/practical-4-iteration-1-execution.md)
 - [Practical 5: Iteration 1 Review](docs/practical-5-iteration-1-review.md)
 - [Practical 6: Iteration 2 Planning and Review](docs/practical-6-iteration-2-planning-and-review.md)
 - [Practical 7: TDD and Automated Testing](docs/practical-7-tdd-testing.md)
 - [Practical 8: Iteration 3 TDD and Mock Testing](docs/practical-8-iteration-3-tdd-and-mock-testing.md)
 - [Practical 9: Bug Tracking and System Testing](docs/practical-9-bug-tracking-and-system-testing.md)
-- [Completed User Story Pages](docs/user-stories/index.md)
-- [US01: User Account Access](docs/user-stories/us01-user-account-access.md)
-- [US02: Multi-Source News Feed](docs/user-stories/us02-multi-source-news-feed.md)
-- [US03: News Categories](docs/user-stories/us03-news-categories.md)
-- [US04: Article Detail Page](docs/user-stories/us04-article-detail-page.md)
-- [US05: Search News](docs/user-stories/us05-search-news.md)
-- [US06: Quick Article Summary](docs/user-stories/us06-quick-article-summary.md)
-- [US07: Save Articles](docs/user-stories/us07-save-articles.md)
-- [US08: Breaking News Alerts](docs/user-stories/us08-breaking-news-alerts.md)
-- [US09: Same-Story Comparison](docs/user-stories/us09-same-story-comparison.md)
-- [US10: Bias and Balance Insights](docs/user-stories/us10-bias-and-balance-insights.md)
-- [US11: User Preferences](docs/user-stories/us11-user-preferences.md)
-- [US12: Admin Management](docs/user-stories/us12-admin-management.md)
 
-## Project Evidence Pages
+### Project Evidence Pages
 
 - [Design Documentation](docs/design.md)
 - [Delivered Solution](docs/delivered-solution.md)
 - [Testing Documentation](docs/testing.md)
 - [Tools and Technologies](docs/tools.md)
 - [Agile Development Process](docs/agile-process.md)
+
+### Completed User Story Pages
+
+- [All Completed User Stories](docs/user-stories/index.md)
+
+#### Iteration 1 User Stories
+
+- [US01: User Account Access](docs/user-stories/us01-user-account-access.md)
+- [US02: Multi-Source News Feed](docs/user-stories/us02-multi-source-news-feed.md)
+- [US03: News Categories](docs/user-stories/us03-news-categories.md)
+- [US04: Article Detail Page](docs/user-stories/us04-article-detail-page.md)
+- [US05: Search News](docs/user-stories/us05-search-news.md)
+
+#### Iteration 2 User Stories
+
+- [US06: Quick Article Summary](docs/user-stories/us06-quick-article-summary.md)
+- [US07: Save Articles](docs/user-stories/us07-save-articles.md)
+- [US08: Breaking News Alerts](docs/user-stories/us08-breaking-news-alerts.md)
+
+#### Iteration 3 User Stories
+
+- [US09: Same-Story Comparison](docs/user-stories/us09-same-story-comparison.md)
+- [US10: Bias and Balance Insights](docs/user-stories/us10-bias-and-balance-insights.md)
+- [US11: User Preferences](docs/user-stories/us11-user-preferences.md)
+- [US12: Admin Management](docs/user-stories/us12-admin-management.md)
