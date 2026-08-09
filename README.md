@@ -87,6 +87,10 @@ Practical 1 is focused on setting up the GitHub repository, writing the README f
 - [US06: Quick Article Summary](docs/user-stories/us06-quick-article-summary.md)
 - [US07: Save Articles](docs/user-stories/us07-save-articles.md)
 - [US08: Breaking News Alerts](docs/user-stories/us08-breaking-news-alerts.md)
+- [US09: Same-Story Comparison](docs/user-stories/us09-same-story-comparison.md)
+- [US10: Bias and Balance Insights](docs/user-stories/us10-bias-and-balance-insights.md)
+- [US11: User Preferences](docs/user-stories/us11-user-preferences.md)
+- [US12: Admin Management](docs/user-stories/us12-admin-management.md)
 
 ## Project Evidence Pages
 
