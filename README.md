@@ -88,3 +88,10 @@ Practical 1 is focused on setting up the GitHub repository, writing the README f
 - [US07: Save Articles](docs/user-stories/us07-save-articles.md)
 - [US08: Breaking News Alerts](docs/user-stories/us08-breaking-news-alerts.md)
 
+## Project Evidence Pages
+
+- [Design Documentation](docs/design.md)
+- [Delivered Solution](docs/delivered-solution.md)
+- [Testing Documentation](docs/testing.md)
+- [Tools and Technologies](docs/tools.md)
+- [Agile Development Process](docs/agile-process.md)
